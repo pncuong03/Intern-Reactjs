@@ -1,13 +1,17 @@
+import useWeather from "../hooks";
 import { weatherType } from "../types";
 import { convertCelsius, convertDistance, convertTime, feels } from "../utils";
+import Search from "./Search";
 
 type Props = {
   data: weatherType;
 };
 
 const Weather = ({ data }: Props) => {
+  const { term, onSubmit, onInputChange } = useWeather();
   return (
-    <div className="w-full max-w-[500px] py-4 px-24 h-auto bg-orange-400  bg-opacity-20 backdrop-blur-ls rounded drop-shadow-lg">
+    <div className="w-full max-w-[700px] py-4 px-24 h-auto bg-orange-100 backdrop-blur-ls rounded drop-shadow-lg">
+      <Search term={term} onInputChange={onInputChange} onSubmit={onSubmit} />
       <div className="mx-auto w-[300px]">
         <section className="text-center">
           <h2 className="text-2xl font-black">

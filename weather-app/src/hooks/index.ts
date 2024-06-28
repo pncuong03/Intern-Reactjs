@@ -1,16 +1,14 @@
-import { useState, ChangeEvent } from 'react'
+import { useState, useContext } from 'react'
 import axios from 'axios'
-import { weatherType } from './../types/index'
-
-
+import { WeatherContext } from '../Context/WeatherContext'
+  
 const useWeather = () => {
   const [term, setTerm] = useState<string>('')
-  const [forecast, setForecast] = useState<weatherType | null>(null)
+  const { dispatch } = useContext(WeatherContext);
 
-
-  const onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTerm(e.target.value)
-  }
+  };
 
   const onSubmit = () => {
     getForecast()
@@ -24,20 +22,18 @@ const useWeather = () => {
           appid: '8fc774d06aff69e11cb7b4bd006a772c',
         },
       })
-      setForecast(res.data)
-      console.log(forecast);
+      dispatch({ type: 'SET_FORECAST', payload: res.data });
       
     } catch (error) {
-      
+      alert("Please enter again city!")
     }
   }
 
   return {
-    forecast,
     term,
     onSubmit,
     onInputChange,
-  }
+  };
 }
 
 export default useWeather
