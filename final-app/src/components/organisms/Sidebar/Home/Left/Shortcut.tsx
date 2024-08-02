@@ -7,9 +7,6 @@ const ShortCut = () => {
   return (
     <div className=''>
       <p className='font-semibold text-black'>{t('home.yourshortcut')}</p>
-      <div className='-ml-1'>
-        <Contacts />
-      </div>
     </div>
   )
 }

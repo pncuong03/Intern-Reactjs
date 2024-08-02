@@ -5,20 +5,23 @@ export interface IAuth {
 }
 
 export interface IUser {
+  id: string
   fullName: string
   imageUrl: string
   backgroundUrl: string
   birthday: string
   gender: string
   description: string
+  state: string
 }
 
 export interface ISearchUser {
+  id: string
   fullName: string
   imageUrl: string
-  isFriend: string
-  hadSendFriendRequest: string
-  hadReceiverFriendRequest: string
+  isFriend: boolean
+  hadSendFriendRequest: boolean
+  hadReceiverFriendRequest: boolean
 }
 
 export enum FetchStatus {

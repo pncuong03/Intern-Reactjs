@@ -1,13 +1,14 @@
 import { useColorScheme } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import { useSelector } from 'react-redux'
-import { RootState } from '~/app/appHooks'
 import Button from '~/components/atoms/Button'
+import { IUser } from '~/types/user'
 
-const Intro = () => {
+interface IntroProps {
+  data: IUser
+}
+const Intro: React.FC<IntroProps> = ({ data }) => {
   const { t } = useTranslation()
   const { mode } = useColorScheme()
-  const data = useSelector((state: RootState) => state.user.user)
   return (
     <div className={`flex flex-col gap-4 rounded-lg  p-3 shadow ${mode === 'light' ? 'bg-white' : 'bg-neutral-800'}`}>
       <p className='text-xl font-bold '>{t('home.intro')}</p>
@@ -22,19 +23,6 @@ const Intro = () => {
           <p>Software Engineer</p>
         </div>
 
-        <div className='flex items-center space-x-2'>
-          <span>
-            <i className='fab fa-instagram text-[1.25rem] text-gray-400'></i>
-          </span>
-          <a
-            className='cursor-pointer hover:underline'
-            target='_blank'
-            rel='noopener noreferrer'
-            href={'https://instagram.com/_shiha6'}
-          >
-            <p>_shiha6</p>
-          </a>
-        </div>
         <div className='flex items-center space-x-2'>
           <span>
             <i className='fab fa-instagram text-[1.25rem] text-gray-400'></i>

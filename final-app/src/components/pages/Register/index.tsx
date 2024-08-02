@@ -6,8 +6,8 @@ import { useRegister } from '~/utilities/hooks/useRegister'
 
 const Register: React.FC = () => {
   const { onRegister } = useRegister()
-  const onSubmit = async (values: { fullname: string; username: string; password: string }) => {
-    await onRegister(values.fullname, values.username, values.password)
+  const onSubmit = async (values: { fullName: string; username: string; password: string }) => {
+    await onRegister(values.fullName, values.username, values.password)
   }
 
   return (
@@ -17,7 +17,7 @@ const Register: React.FC = () => {
           <img src='./img/fb-icon.png' alt='Facebook' className='mx-auto w-32' />
         </div>
         <Formik
-          initialValues={{ fullname: '', username: '', password: '' }}
+          initialValues={{ fullName: '', username: '', password: '' }}
           validationSchema={loginSchema}
           onSubmit={onSubmit}
         >
@@ -26,7 +26,7 @@ const Register: React.FC = () => {
               <div>
                 <Field
                   type='text'
-                  name='fullname'
+                  name='fullName'
                   placeholder='Fullname'
                   className='w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600'
                 />

@@ -13,9 +13,7 @@ const Button: React.FC<ConnectButtonProps> = ({ children, className, color = 'pr
   return (
     <button
       className={clsx('flex items-center justify-center flex-1 py-2 font-semibold ', className, {
-        'cursor-not-allowed border-[1px] bg-black-700': props.disabled
-        // '!text-primary': props.disabled && color === 'primary',
-        // '!text-green-500': props.disabled && color === 'green'
+        'cursor-not-allowed border-[1px] ': props.disabled
       })}
       {...props}
     >

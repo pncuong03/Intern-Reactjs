@@ -1,11 +1,8 @@
 import clsx from 'clsx'
-import React, { ChangeEvent, useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import routesName from '~/routes/enum.routes'
 import Modal from 'react-modal'
-
-import { MoonIcon } from '../../atoms/Icons/MoonIcon'
-import { SunIcon } from '../../atoms/Icons/SunIcon'
 import { HomeIcon } from '~/components/atoms/Icons/HomeIcon'
 import { WatchIcon } from '~/components/atoms/Icons/WatchIcon'
 import { GroupIcon } from '~/components/atoms/Icons/GroupIcon'
@@ -19,18 +16,27 @@ import { useColorScheme } from '@mui/material/styles'
 import MaterialUISwitch from '~/components/atoms/SwitchDarkMode/SwitchDarkMode'
 import { AppDispatch, RootState } from '~/app/appHooks'
 import { useDispatch, useSelector } from 'react-redux'
-import GetCommnetModal from '~/components/organisms/Post/GetCommentModal'
-import GetNotificationModal from '~/components/organisms/Notification/GetNotificationModal'
-import Input from '~/components/atoms/Input'
-import { fetchSearchUser } from '~/apis/user/userThunk'
-import { setSearchQuery } from '~/slices/user/userSlice'
-import { debounce } from '@mui/material'
+import { logOut } from '~/slices/auth/authSlice'
+import { toast } from 'react-toastify'
+import { changeLanguage } from 'i18next'
+import DrawerLanguage from '~/components/atoms/Drawer/DrawerLanguage'
+import SearchUser from '~/components/organisms/Search/SearchUser'
+import Notification from '~/components/organisms/Notification/GetNoti'
+import { deleteEventNoti, fetchEventNoti } from '~/apis/noti/notiThunk'
+import { Badge } from '@mui/material'
+import { IEventNoti } from '~/types/noti'
+import { addMessageReceived } from '~/slices/message/messageSlice'
+import { deleteMessageNoti } from '~/slices/noti/notiSlice'
 
 const MENU_ITEMS = [
   { name: 'Home', path: routesName.HOME, icon: HomeIcon },
   { name: 'Watch', path: routesName.WATCH, icon: WatchIcon },
-
   { name: 'GROUP', path: routesName.GROUP, icon: GroupIcon }
+]
+
+const languages = [
+  { text: 'Vietnamese', onClick: () => changeLanguage('vi') },
+  { text: 'English', onClick: () => changeLanguage('en') }
 ]
 
 const Header: React.FC = () => {
@@ -38,18 +44,12 @@ const Header: React.FC = () => {
   const [showMenuSp, setShowMenuSp] = useState(false)
   const dispatch = useDispatch<AppDispatch>()
   const { mode, setMode } = useColorScheme()
-  const { t, i18n } = useTranslation()
+  const navigate = useNavigate()
+  const { t } = useTranslation()
   const data = useSelector((state: RootState) => state.user.user)
-  // const searchs = useSelector((state: RootState) => state.user.searchUser)
-  const [search, setSearch] = useState('')
-  const [listUser, setListUser] = useState([])
+  const noti = useSelector((state: RootState) => state.noti.notiEvent)
   const [isOpenNotification, setIsOpenNotification] = useState(false)
-
-  const changeLanguageHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const languageValue = e.target.value
-    i18n.changeLanguage(languageValue)
-    console.log(languageValue)
-  }
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null)
 
   const ToggleMode = () => {
     if (mode === 'dark') {
@@ -58,66 +58,64 @@ const Header: React.FC = () => {
       setMode('dark')
     }
   }
-  useEffect(() => {
-    const handler = setTimeout(async () => {
-      if (search) {
-        const data = await fetchSearchUser(search)
-        setListUser(data)
-      } else {
-        setListUser([])
-      }
-    }, 500)
 
-    return () => {
-      clearTimeout(handler)
-    }
-  }, [search, dispatch])
+  const handleLogout = () => {
+    dispatch(logOut())
+    toast.success(t('home.logout'))
+    navigate('/login')
+  }
 
-  // const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-  //   const value = e.target.value
-  //   setSearch(value)
-  // }
+  // useEffect(() => {
+  //   const fetchNoti = async () => {
+  //     try {
+  //       await dispatch(fetchEventNoti())
+  //     } catch (error) {
+  //     } finally {
+  //       // if (noti.messages.length) {
+  //       // dispatch(addMessageReceived(noti.messages))
+  //       // }
+  //       timeoutRef.current = setTimeout(fetchNoti, 5000)
+  //     }
+  //   }
 
+  //   fetchNoti()
+
+  //   // Cleanup function to clear the timeout on unmount
+  //   return () => {
+  //     if (timeoutRef.current) {
+  //       clearTimeout(timeoutRef.current)
+  //     }
+  //   }
+  // }, [dispatch])
+
+  const handleDeleteEvent = () => {
+    dispatch(deleteMessageNoti())
+  }
   return (
     <header
-      className={`fixed z-10 flex h-14 w-full items-center justify-between px-2 ${mode === 'light' ? 'bg-white' : 'bg-black-300'} shadow-md`}
+      className={`fixed z-10 flex h-[75px] w-full items-center justify-between px-2 ${mode === 'light' ? 'bg-white' : 'bg-black-300'} shadow-md`}
     >
       <div className='col-span-2 flex items-center'>
         <div className='ml-2 flex gap-2 items-center'>
-          <div className='h-10 '>
+          <div className=''>
             <Link to='/'>
-              <img src='./img/fb-icon.png' className='h-10 w-10 rounded-full' alt='dp' />
+              <img src='/img/fb-icon.png' className='h-[50px] w-[50px] rounded-full' alt='dp' />
             </Link>
           </div>
-
-          <div className=' hidden xl:flex'>
-            <Input
-              // value={hash}
-              placeholder={t('home.search')}
-              className='rounded-full '
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-          </div>
-
-          <ul>
-            {listUser.map((result: any, index) => (
-              <li key={index}>{result?.fullName}</li>
-            ))}
-          </ul>
+          <SearchUser />
         </div>
       </div>
       <nav className='hidden lg:gap-10  md:flex '>
         {MENU_ITEMS.map((item, index) => (
           <div key={index}>
             <Link
-              className={clsx('leading-12 relative block text-lg font-medium text-neutral-200 hover:text-primary', {
-                "!font-bold !text-primary  after:mx-auto after:block after:h-1.5 after:w-full after:rounded-full after:bg-primary after:content-[''] ":
+              className={clsx('leading-14 relative block text-lg font-medium text-neutral-200 hover:text-primary', {
+                "!font-bold !text-primary after:mx-auto after:block  after:h-2 after:w-full after:rounded-full after:bg-primary after:content-[''] ":
                   `/${pathname.split('/')[1]}` === item.path
               })}
               to={item.path}
             >
-              <div className='flex h-12 w-24 cursor-pointer items-center justify-center rounded-lg hover:bg-gray-100 dark:hover:bg-neutral-700'>
+              <div className='flex h-16 w-24 cursor-pointer items-center justify-center rounded-lg hover:bg-gray-100 dark:hover:bg-neutral-700'>
                 <div className='relative flex h-auto w-14 items-center justify-center'>
                   {item.icon && <item.icon />}
                 </div>
@@ -126,6 +124,7 @@ const Header: React.FC = () => {
           </div>
         ))}
       </nav>
+
       <Modal
         isOpen={showMenuSp}
         onRequestClose={() => setShowMenuSp(!showMenuSp)}
@@ -171,11 +170,7 @@ const Header: React.FC = () => {
 
       <div className='col-span-2 flex items-center justify-end'>
         <div className='flex h-10 w-auto items-center space-x-2 pr-2'>
-          <div className='flex gap-2 items-center'>
-            <select onChange={changeLanguageHandler}>
-              <option value='vi'>VN</option> <option value='en'>EN</option>
-            </select>
-          </div>
+          <DrawerLanguage menuItems={languages} />
 
           <MaterialUISwitch
             onClick={ToggleMode}
@@ -184,24 +179,38 @@ const Header: React.FC = () => {
             checked={mode === 'light' ? true : false}
           />
 
-          <Button className={`rounded-full mx-y ${mode === 'light' ? 'bg-gray-200' : 'bg-neutral-500'} border-none`}>
+          <Button
+            onClick={handleLogout}
+            className={`rounded-full w-12  ${mode === 'light' ? 'bg-gray-200' : 'bg-neutral-500'} border-none`}
+          >
             <PlusIcon />
           </Button>
-          <Button className={`rounded-full mx-y ${mode === 'light' ? 'bg-gray-200' : 'bg-neutral-500'} border-none`}>
-            <MessageIcon />
-          </Button>
-          <Button
-            className={`rounded-full mx-y ${mode === 'light' ? 'bg-gray-200' : 'bg-neutral-500'} border-none`}
-            onClick={() => setIsOpenNotification(true)}
-          >
-            <BellIcon className='' />
-          </Button>
-          <Button className='rounded-full h-10 w-10'>
-            <img src={data?.imageUrl} className='h-10 w-10 rounded-full' alt='avatar' />{' '}
+          <Link to='/message'>
+            <Badge badgeContent={noti?.messageCount} color='primary'>
+              <Button
+                className={`rounded-full w-12  ${mode === 'light' ? 'bg-gray-200' : 'bg-neutral-500'} border-none`}
+                onClick={() => handleDeleteEvent()}
+              >
+                <MessageIcon />
+              </Button>
+            </Badge>
+          </Link>
+          <Badge badgeContent={noti?.informCount} color='primary'>
+            <Button
+              className={`rounded-full w-12 ${mode === 'light' ? 'bg-gray-200' : 'bg-neutral-500'} border-none`}
+              onClick={() => setIsOpenNotification(!isOpenNotification)}
+            >
+              <BellIcon />
+            </Button>
+          </Badge>
+
+          <Notification isOpen={isOpenNotification} />
+
+          <Button className='rounded-full h-12 w-12'>
+            <img src={data?.imageUrl} className='h-12 w-12 rounded-full' alt='avatar' />{' '}
           </Button>
         </div>
       </div>
-      <GetNotificationModal bgColor='' isOpen={isOpenNotification} closeModal={() => setIsOpenNotification(false)} />
     </header>
   )
 }

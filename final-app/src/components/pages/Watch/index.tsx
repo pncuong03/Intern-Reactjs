@@ -1,8 +1,16 @@
 import React from 'react'
-import { useTranslation } from 'react-i18next'
+import { Outlet } from 'react-router-dom'
+import WatchSidebar from '~/components/organisms/Watch/WatchSidebar'
 
-export default function WATCH() {
-  const { t } = useTranslation()
-
-  return <div>{t('home.watch')}</div>
+const WatchPage: React.FC = () => {
+  return (
+    <div className='flex gap-6'>
+      <WatchSidebar />
+      <main className=''>
+        <Outlet />
+      </main>
+    </div>
+  )
 }
+
+export default WatchPage

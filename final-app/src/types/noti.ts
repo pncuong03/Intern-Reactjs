@@ -18,3 +18,19 @@ export interface INoti {
   //   }
   post: IPost
 }
+
+export interface IMessage {
+  chatId: string
+  userId: string
+  fullName: string
+  imageUrl: string
+  message: string
+  isMe: boolean
+  createdAt: string
+}
+
+export interface IEventNoti {
+  messageCount: number
+  informCount: number
+  messages: IMessage[]
+}

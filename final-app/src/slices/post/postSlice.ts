@@ -2,8 +2,10 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { FetchStatus } from '~/types/user'
 import { IPost, LikeData } from '~/types/post'
 import {
+  deletePost,
   fetchDetailPost,
   fetchLikePost,
+  fetchPostFriend,
   fetchPostOfMe,
   fetchPostPublicOfFriend,
   likePost,
@@ -14,6 +16,7 @@ import {
 export interface PostState {
   postPublic: IPost[]
   postOfMe: IPost[]
+  postOfFriend: IPost[]
   listLike: LikeData[]
   postStatus: FetchStatus
   likeStatus: FetchStatus
@@ -42,6 +45,7 @@ const initialPost: IPost = {
 const initialState: PostState = {
   postPublic: [],
   postOfMe: [],
+  postOfFriend: [],
   listLike: [],
   detailPost: initialPost,
   postStatus: FetchStatus.idle,
@@ -56,6 +60,7 @@ const postSlice = createSlice({
       const postId = action.payload
       const postPublic = state.postPublic.find((post) => post.id === postId)
       const postOfMe = state.postOfMe.find((post) => post.id === postId)
+      const postOfFriend = state.postOfFriend.find((post) => post.id === postId)
       if (postPublic) {
         postPublic.hasLike = true
         postPublic.likeCount += 1
@@ -64,12 +69,16 @@ const postSlice = createSlice({
         postOfMe.hasLike = true
         postOfMe.likeCount += 1
       }
+      if (postOfFriend) {
+        postOfFriend.hasLike = true
+        postOfFriend.likeCount += 1
+      }
     },
     decreaseLike: (state, action: PayloadAction<string>) => {
       const postId = action.payload
       const postPublic = state.postPublic.find((post) => post.id === postId)
       const postOfMe = state.postOfMe.find((post) => post.id === postId)
-
+      const postOfFriend = state.postOfFriend.find((post) => post.id === postId)
       if (postPublic) {
         postPublic.hasLike = false
         postPublic.likeCount -= 1
@@ -79,20 +88,44 @@ const postSlice = createSlice({
         postOfMe.hasLike = false
         postOfMe.likeCount -= 1
       }
+      if (postOfFriend) {
+        postOfFriend.hasLike = false
+        postOfFriend.likeCount -= 1
+      }
     },
     increaseShare: (state, action: PayloadAction<string>) => {
       const postId = action.payload
-      const post = state.postPublic.find((post) => post.id === postId)
-      if (post) {
-        post.shareCount += 1
+      const postPublic = state.postPublic.find((post) => post.id === postId)
+      const postOfMe = state.postOfMe.find((post) => post.id === postId)
+      const postOfFriend = state.postOfFriend.find((post) => post.id === postId)
+      if (postPublic) {
+        postPublic.shareCount += 1
+      }
+      if (postOfMe) {
+        postOfMe.shareCount += 1
+      }
+      if (postOfFriend) {
+        postOfFriend.shareCount += 1
       }
     },
     increaseComment: (state, action: PayloadAction<string>) => {
       const postId = action.payload
-      const post = state.postPublic.find((post) => post.id === postId)
-      if (post) {
-        post.commentCount += 1
+      const postPublic = state.postPublic.find((post) => post.id === postId)
+      const postOfMe = state.postOfMe.find((post) => post.id === postId)
+      const postOfFriend = state.postOfFriend.find((post) => post.id === postId)
+      if (postPublic) {
+        postPublic.commentCount += 1
       }
+      if (postOfMe) {
+        postOfMe.commentCount += 1
+      }
+      if (postOfFriend) {
+        postOfFriend.commentCount += 1
+      }
+    },
+    deletePostofMe: (state, action: PayloadAction<string>) => {
+      const postId = action.payload
+      state.postOfMe = state.postOfMe.filter((post) => post.id !== postId)
     }
   },
   extraReducers: (builder) => {
@@ -170,8 +203,30 @@ const postSlice = createSlice({
       .addCase(fetchDetailPost.rejected, (state) => {
         state.postStatus = FetchStatus.failed
       })
+
+      .addCase(fetchPostFriend.pending, (state) => {
+        state.postStatus = FetchStatus.pending
+      })
+      .addCase(fetchPostFriend.fulfilled, (state, action: PayloadAction<IPost[]>) => {
+        state.postStatus = FetchStatus.succeeded
+        state.postOfFriend = action.payload
+      })
+      .addCase(fetchPostFriend.rejected, (state) => {
+        state.postStatus = FetchStatus.failed
+      })
+
+      .addCase(deletePost.pending, (state) => {
+        state.postStatus = FetchStatus.pending
+      })
+      // .addCase(deletePost.fulfilled, (state, action: PayloadAction<string>) => {
+      //   const postId = action.payload
+      //   state.postOfMe = state.postOfMe.filter((post) => post.id !== postId)
+      // })
+      .addCase(deletePost.rejected, (state) => {
+        state.postStatus = FetchStatus.failed
+      })
   }
 })
 
-export const { increaseLike, decreaseLike, increaseShare, increaseComment } = postSlice.actions
+export const { increaseLike, decreaseLike, increaseShare, increaseComment, deletePostofMe } = postSlice.actions
 export default postSlice.reducer

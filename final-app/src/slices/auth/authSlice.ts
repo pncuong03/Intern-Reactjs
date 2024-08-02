@@ -1,5 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { toast } from 'react-toastify'
+import { logout } from '~/apis/auth'
 import { userLogin, userRegister } from '~/apis/auth/authThunk'
 import { FetchStatus } from '~/types/user'
 
@@ -17,14 +18,13 @@ export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    reset: () => initialState
-    // logOut: () => {
-    //   authService.logout();
-    //   return {
-    //     loginStatus: FetchStatus.idle,
-    //     accessToken: null,
-    //   };
-    // },
+    logOut: () => {
+      logout()
+      return {
+        loginStatus: FetchStatus.idle,
+        accessToken: null
+      }
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -58,6 +58,6 @@ export const authSlice = createSlice({
   }
 })
 
-export const { reset } = authSlice.actions
+export const { logOut } = authSlice.actions
 
 export default authSlice.reducer

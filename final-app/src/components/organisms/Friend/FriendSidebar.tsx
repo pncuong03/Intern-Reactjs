@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { RootState } from '~/app/appHooks'
-import { GamingIcon } from '~/components/atoms/Icons/GamingIcon'
 import { GroupIcon } from '~/components/atoms/Icons/GroupIcon'
 import { UsersIcon } from '~/components/atoms/Icons/UsersIcon'
 import routesName from '~/routes/enum.routes'
@@ -11,35 +10,26 @@ import routesName from '~/routes/enum.routes'
 const FriendSidebar = () => {
   const { t } = useTranslation()
   const { mode } = useColorScheme()
-  const data = useSelector((state: RootState) => state.user.user)
 
   const MENU_ITEMS = [
-    { name: 'Friends', path: routesName.FRIEND, icon: UsersIcon, title: t('home.friend') },
-    { name: 'Groups', path: routesName.LOGIN, icon: GroupIcon, title: t('home.group') },
-    { name: 'Gmaing', path: routesName.REGISTER, icon: GamingIcon, title: t('home.gaming') }
+    { name: 'Friends', path: routesName.FRIENDREQUEST, icon: UsersIcon, title: t('home.request') },
+    { name: 'Groups', path: routesName.FRIENDLIST, icon: GroupIcon, title: t('home.allfriend') }
   ]
 
   return (
-    <div className={`mb-4 grid border-b-[1px] pb-3 ${mode === 'light' ? 'border-gray-400' : 'border-neutral-600'}`}>
-      <Link to='/profile'>
-        <div
-          className={`h-12 flex items-center space-x-3 px-2.5 rounded-lg ${mode === 'light' ? 'hover:bg-gray-200' : 'hover:bg-neutral-800'}`}
-        >
-          <div className='h-8 w-9'>
-            <img src={data?.imageUrl} className='h-full w-full rounded-full' alt='dp' />
-          </div>
-          <div className='flex'>
-            {' '}
-            <p className='text-md font-normal '>{data?.fullName}</p>
-          </div>
-        </div>
-      </Link>
+    <div
+      className={`fixed z-0 w-[24rem] h-screen shadow-md pl-6 pt-14 ${mode === 'light' ? 'bg-white' : 'bg-black-300'}`}
+    >
+      <div className='font-semibold text-2xl pb-4'>{t('home.friend')}</div>
       {MENU_ITEMS.map((item, index) => (
-        <div key={index} className={`${mode === 'light' ? 'hover:bg-gray-200' : 'hover:bg-neutral-800'} rounded-lg`}>
+        <div
+          key={index}
+          className={`${mode === 'light' ? 'hover:bg-gray-200' : 'hover:bg-neutral-800'} -ml-2 rounded-lg`}
+        >
           <Link to={item.path}>
-            <div className='flex h-12 w-full cursor-pointer items-center rounded-lg '>
+            <div className='flex gap-3 h-14 w-full cursor-pointer items-center rounded-lg '>
               <div className='relative flex h-auto w-14 items-center justify-center'>{item.icon && <item.icon />}</div>
-              <div className='font-normal'>{item.title}</div>
+              <div className='font-medium text-xl'>{item.title}</div>
             </div>
           </Link>
         </div>

@@ -22,16 +22,16 @@ const CreatePostBox: React.FC<Props> = () => {
 
   return (
     <div
-      className={`flex flex-col rounded-md h-max ${mode === 'light' ? 'bg-white' : 'bg-black-700'} p-3 px-4 shadow-md`}
+      className={`flex flex-col rounded-lg h-max ${mode === 'light' ? 'bg-white' : 'bg-black-300'} p-3 px-4 shadow-md`}
     >
       <div
         className={`mb-2 flex items-center space-x-2 border-b pb-3 ${mode === 'light' ? 'border-gray-200' : 'border-gray-600'}`}
       >
-        <div className='h-10 w-10'>
+        <div className='h-12 w-12'>
           <img src={data?.imageUrl} className='h-full w-full rounded-full' alt='dp' />
         </div>
         <button
-          className={`h-10 flex-grow rounded-full font-normal ${mode === 'light' ? 'bg-gray-100' : 'bg-neutral-700'} pl-5 text-left text-gray-400 `}
+          className={`h-12 flex-grow rounded-full font-normal ${mode === 'light' ? 'bg-gray-100' : 'bg-neutral-700'} pl-5 text-left text-gray-400 `}
           onClick={() => setIsOpen(true)}
         >
           {data?.fullName}, {t('home.whatmind')} ?

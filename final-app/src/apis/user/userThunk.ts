@@ -1,4 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
+import { ISearchUser } from '~/types/user'
 import { axiosInstance } from '~/utilities/services/initRequest'
 
 export const fetchInfoUser = createAsyncThunk('post/fetchInfoUser', async (thunkAPI) => {
@@ -27,15 +28,31 @@ export const fetchEditUser = createAsyncThunk('post/fetchEditUser', async (userD
   } catch (error) {}
 })
 
-export const fetchSearchUser = async (search: string) => {
-  try {
-    const accessToken = localStorage.getItem('ACCESS_TOKEN') || ''
-    const auth = {
-      headers: {
-        Authorization: `Bearer ${accessToken}`
+// export const fetchSearchUser = createAsyncThunk<ISearchUser[], string> (search: string) => {
+//   try {
+//     const accessToken = localStorage.getItem('ACCESS_TOKEN') || ''
+//     const auth = {
+//       headers: {
+//         Authorization: `Bearer ${accessToken}`
+//       }
+//     }
+//     const data = await axiosInstance.get(`/user/list?search=${search}`, auth)
+//     return data.data.content
+//   } catch (error) {}
+// }
+
+export const fetchSearchUser = createAsyncThunk<ISearchUser[], string>(
+  'user/fetchSearchUser',
+  async (search: string, thunkAPI) => {
+    try {
+      const accessToken = localStorage.getItem('ACCESS_TOKEN') || ''
+      const auth = {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
       }
-    }
-    const data = await axiosInstance.get(`/user/list?search=${search}`, auth)
-    return data.data.content
-  } catch (error) {}
-}
+      const data = await axiosInstance.get(`/user/list?search=${search}`, auth)
+      return data.data.content
+    } catch (error) {}
+  }
+)

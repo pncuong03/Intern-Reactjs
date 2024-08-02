@@ -1,11 +1,13 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Modal from '~/components/atoms/Modal'
 import Button from '~/components/atoms/Button'
 import { AppDispatch, RootState } from '~/app/appHooks'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchEditUser } from '~/apis/user/userThunk'
+import { fetchEditUser, fetchInfoUser } from '~/apis/user/userThunk'
 import Input from '~/components/atoms/Input'
+import { toast } from 'react-toastify'
+import { IUser } from '~/types/user'
 
 type Props = {
   isOpen: boolean
@@ -18,13 +20,25 @@ const EditProfileModal: React.FC<Props> = ({ isOpen, closeModal }) => {
   const data = useSelector((state: RootState) => state.user.user)
 
   const [info, setInfo] = useState({
-    fullName: data?.fullName || '',
-    gender: data?.gender || '',
-    description: data?.description || ''
+    fullName: '',
+    gender: '',
+    description: ''
   })
 
-  const [avatar, setAvatar] = useState<File | null>(null)
-  const [background, setBackground] = useState<File | null>(null)
+  useEffect(() => {
+    if (data) {
+      setInfo({
+        fullName: data.fullName || '',
+        gender: data.gender || '',
+        description: data.description || ''
+      })
+      setAvatar(data.imageUrl || null)
+      setBackground(data.backgroundUrl || null)
+    }
+  }, [data])
+
+  const [avatar, setAvatar] = useState<File | string | null>(data?.imageUrl)
+  const [background, setBackground] = useState<File | string | null>(data?.backgroundUrl)
 
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -59,6 +73,8 @@ const EditProfileModal: React.FC<Props> = ({ isOpen, closeModal }) => {
     }
 
     await dispatch(fetchEditUser(formData))
+    toast.success(t('home.updateprofile'))
+
     closeModal()
   }
 
@@ -68,9 +84,9 @@ const EditProfileModal: React.FC<Props> = ({ isOpen, closeModal }) => {
       closeModal={closeModal}
       bgColor='bg-white'
       isOpen={isOpen}
-      className='!top-1/2 !left-1/2 w-[400px] -translate-x-1/2 -translate-y-1/2 lg:ml-14'
+      className='!top-1/2 !left-1/2 w-[700px] -translate-x-1/2 -translate-y-1/2 lg:ml-14'
     >
-      <div className='p-6 space-y-3 max-h-96 xl:max-h-[500px] overflow-y-auto'>
+      <div className='p-6 space-y-3 max-h-96 xl:max-h-[710px] overflow-y-auto'>
         <Input
           name='fullName'
           label={t('home.fullname')}
@@ -96,7 +112,7 @@ const EditProfileModal: React.FC<Props> = ({ isOpen, closeModal }) => {
           </label>
           {avatar && (
             <img
-              src={URL.createObjectURL(avatar)}
+              src={typeof avatar === 'string' ? avatar : URL.createObjectURL(avatar)}
               alt='Avatar Preview'
               className='mt-4 h-44 w-44 mx-auto rounded-full border border-gray-300'
             />
@@ -120,7 +136,7 @@ const EditProfileModal: React.FC<Props> = ({ isOpen, closeModal }) => {
           </label>
           {background && (
             <img
-              src={URL.createObjectURL(background)}
+              src={typeof background === 'string' ? background : URL.createObjectURL(background)}
               alt='Background Preview'
               className='mt-4 h-52 w-full mx-auto rounded-md border border-gray-300'
             />
@@ -134,7 +150,7 @@ const EditProfileModal: React.FC<Props> = ({ isOpen, closeModal }) => {
           value={info.gender}
           onChange={handleChange}
         >
-          <option value=''>Chọn</option>
+          <option value=''>{t('home.select')}</option>
           <option value='Male'>{t('home.male')}</option>
           <option value='Female'>{t('home.female')}</option>
           <option value='Other'>{t('home.other')}</option>

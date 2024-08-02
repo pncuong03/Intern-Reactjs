@@ -1,12 +1,14 @@
 import React from 'react'
 import Leftbar from './Leftbar'
-import ShortCut from './Shortcut'
+import { useColorScheme } from '@mui/material'
 
 const LeftSidebar: React.FC = () => {
+  const { mode } = useColorScheme()
   return (
-    <div className=' h-[calc(100vh-56px)] mt-14 w-[22.5rem] hover:overflow-y-auto px-2 py-3 xl:flex flex-col hidden'>
+    <div
+      className={`h-[calc(120vh-56px)] shadow-sm ${mode === 'light' ? 'bg-white' : 'bg-black-300'} rounded-xl mt-16 w-[23rem] hover:overflow-y-auto py-3 xl:flex flex-col hidden`}
+    >
       <Leftbar />
-      <ShortCut />
     </div>
   )
 }

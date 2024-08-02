@@ -2,8 +2,8 @@ import { styled } from '@mui/material/styles'
 import Switch from '@mui/material/Switch'
 
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
-  width: 62,
-  height: 34,
+  width: 66,
+  height: 45,
   padding: 10,
   '& .MuiSwitch-switchBase': {
     margin: '5px 1px',
@@ -25,8 +25,8 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   },
   '& .MuiSwitch-thumb': {
     backgroundColor: theme.palette.mode === 'dark' ? '#34495e' : '#001e3c',
-    width: 24,
-    height: 24,
+    width: 35,
+    height: 35,
     '&::before': {
       content: "''",
       position: 'absolute',

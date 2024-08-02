@@ -29,7 +29,7 @@ const GetLikeModal: React.FC<Props> = ({ postId, isOpen, closeModal, bgColor }) 
       closeModal={closeModal}
       isOpen={isOpen}
       bgColor={bgColor}
-      className='!top-1/2 !left-1/2 w-[400px] -translate-x-1/2 -translate-y-1/2 lg:ml-14'
+      className='!top-1/2 !left-1/2 w-[400px] -translate-x-1/2 -translate-y-1/2 lg:pl-2'
     >
       <div className='p-6'>
         <ul className='max-h-96 overflow-y-auto'>

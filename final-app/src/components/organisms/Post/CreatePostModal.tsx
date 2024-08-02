@@ -22,6 +22,7 @@ const CreatePostModal: React.FC<Props> = ({ isOpen, closeModal, bgColor }) => {
   const [content, setContent] = useState('')
   const [images, setImages] = useState<File[]>([])
   const [state, setState] = useState('PUBLIC')
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setContent(e.target.value)
@@ -45,6 +46,7 @@ const CreatePostModal: React.FC<Props> = ({ isOpen, closeModal, bgColor }) => {
   }
 
   const handleSubmit = async () => {
+    if (!content || isLoading) return
     const formData = new FormData()
     const createPostInputString = JSON.stringify({ content, state })
     formData.append('createPostInputString', createPostInputString)
@@ -54,9 +56,10 @@ const CreatePostModal: React.FC<Props> = ({ isOpen, closeModal, bgColor }) => {
     })
 
     dispatch(createPost(formData))
-    toast.success('Post created successfully')
+    toast.success(t('home.createpost'))
     setImages([])
     setContent('')
+    setIsLoading(true)
     closeModal()
   }
 
@@ -66,7 +69,7 @@ const CreatePostModal: React.FC<Props> = ({ isOpen, closeModal, bgColor }) => {
       closeModal={closeModal}
       isOpen={isOpen}
       bgColor={bgColor}
-      className='!top-1/2 !left-1/2 w-[400px] -translate-x-1/2 -translate-y-1/2 lg:ml-14'
+      className='!top-1/2 !left-1/2 w-[500px] -translate-x-1/2 -translate-y-1/2 lg:ml-18'
     >
       <div className='p-6'>
         <div className='flex items-center gap-3 mb-4'>
@@ -133,7 +136,10 @@ const CreatePostModal: React.FC<Props> = ({ isOpen, closeModal, bgColor }) => {
           </div>
         </div>
         <div className='mt-4 flex justify-end'>
-          <Button onClick={handleSubmit} className='rounded-md bg-neutral-300  hover:bg-neutral-500'>
+          <Button
+            onClick={handleSubmit}
+            className={`rounded-md bg-neutral-300 hover:bg-neutral-500 ${!content || isLoading ? 'cursor-not-allowed opacity-50' : ''}`}
+          >
             {/* {isLoading ? (
               <Box sx={{ display: 'flex' }}>
                 <CircularProgress />

@@ -31,7 +31,7 @@ const GetShareModal: React.FC<Props> = ({ shareId, isOpen, closeModal }) => {
   const handleShare = async () => {
     await dispatch(sharePost({ content, state, shareId }))
     closeModal()
-    toast.success('Shared sucess')
+    toast.success(t('home.sharepost'))
   }
 
   return (
@@ -39,7 +39,7 @@ const GetShareModal: React.FC<Props> = ({ shareId, isOpen, closeModal }) => {
       title={t('home.share')}
       closeModal={closeModal}
       isOpen={isOpen}
-      className='!top-1/2 !left-1/2 w-[450px] -translate-x-1/2 -translate-y-1/2 lg:ml-14'
+      className='!top-1/2 !left-1/2 w-[600px] -translate-x-1/2 -translate-y-1/2 '
       bgColor='bg-white'
     >
       <div className='p-6 flex flex-col gap-4'>
@@ -54,7 +54,7 @@ const GetShareModal: React.FC<Props> = ({ shareId, isOpen, closeModal }) => {
               id='state'
               value={state}
               onChange={handleStateChange}
-              className='bg-gray-100 border border-gray-300 rounded-md py-1 font-medium w-24 text-sm'
+              className='border bg-neutral-400 rounded-md py-1 font-medium w-24 text-sm'
             >
               <option value='PUBLIC'>{t('home.public')}</option>
               <option value='PRIVATE'>{t('home.private')}</option>
@@ -62,14 +62,14 @@ const GetShareModal: React.FC<Props> = ({ shareId, isOpen, closeModal }) => {
           </div>
         </div>
         <textarea
-          className='border-none focus:border-none outline-none resize-none bg-neutral-400 p-2 rounded-md w-full'
+          className='border-none focus:border-none outline-none resize-none bg-white p-2 rounded-md w-full'
           placeholder={t('home.whatdosay')}
           value={content}
           onChange={handleContentChange}
         />
         <div className='flex justify-end'>
           <Button
-            className='px-6 py-2 bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600'
+            className='px-6 py-2 bg-neutral-300 hover:bg-neutral-500 rounded-md focus:outline-none '
             onClick={handleShare}
           >
             {t('home.share')}

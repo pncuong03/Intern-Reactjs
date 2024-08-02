@@ -7,9 +7,9 @@ const MainLayout: React.FC = () => {
   const { mode } = useColorScheme()
 
   return (
-    <div className={`min-h-screen pb-10 ${mode === 'dark' ? 'bg-dark' : 'bg-light'}`}>
+    <div className={`min-h-screen ${mode === 'dark' ? 'bg-dark' : 'bg-light'}`}>
       <Header />
-      <main className='mx-auto max-w-[1920px]'>
+      <main className='mx-auto max-w-[1920px] pt-12'>
         <Outlet />
       </main>
     </div>

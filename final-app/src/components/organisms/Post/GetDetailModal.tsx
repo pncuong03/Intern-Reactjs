@@ -17,7 +17,7 @@ type Props = {
   bgColor: string
 }
 
-const GetCommnetModal: React.FC<Props> = ({ postId, isOpen, closeModal, bgColor }) => {
+const GetDetailModal: React.FC<Props> = ({ postId, isOpen, closeModal, bgColor }) => {
   const { t } = useTranslation()
   const dispatch = useDispatch<AppDispatch>()
   const [content, setContent] = useState('')
@@ -30,13 +30,14 @@ const GetCommnetModal: React.FC<Props> = ({ postId, isOpen, closeModal, bgColor 
   const handleAddComment = () => {
     if (content.trim()) {
       dispatch(commentPost([postId, content]))
-      toast.success('Comment success')
+      toast.success(t('home.commentpost'))
       setContent('')
     }
   }
 
   const hanleDeleteComment = (commentId: any) => {
     dispatch(deleteComment(commentId))
+    toast.success(t('home.deletecomment'))
   }
 
   useEffect(() => {
@@ -47,11 +48,11 @@ const GetCommnetModal: React.FC<Props> = ({ postId, isOpen, closeModal, bgColor 
 
   return (
     <Modal
-      title={t('home.share')}
+      title={t('home.comment')}
       closeModal={closeModal}
       isOpen={isOpen}
       bgColor={bgColor}
-      className='!top-1/2 !left-1/2 w-[450px] -translate-x-1/2 -translate-y-1/2 lg:ml-14 '
+      className='!top-1/2 !left-1/2 w-[720px] -translate-x-1/2 -translate-y-1/2 lg:-ml-2'
     >
       <div className='space-y-3 max-h-96 md:max-h-[450px] xl:max-h-[600px] overflow-y-auto'>
         <div className='flex flex-col gap-4'>
@@ -89,4 +90,4 @@ const GetCommnetModal: React.FC<Props> = ({ postId, isOpen, closeModal, bgColor 
   )
 }
 
-export default GetCommnetModal
+export default GetDetailModal

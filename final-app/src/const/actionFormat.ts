@@ -1,15 +1,15 @@
 export const formatNoti = (notify: string, t: (key: string) => string) => {
   switch (notify) {
     case 'ACCEPT_FRIEND_REQUEST':
-      return t('acceptfriend')
+      return t('home.acceptfriend')
     case 'FRIEND_REQUEST':
-      return t('friendrequest')
+      return t('home.friendrequest')
     case 'COMMENT':
-      return t('commentactivity')
+      return t('home.commentactivity')
     case 'LIKE':
-      return t('likeactivity')
+      return t('home.likeactivity')
     case 'SHARE':
-      return t('shareactivity')
+      return t('home.shareactivity')
     default:
       return notify
   }

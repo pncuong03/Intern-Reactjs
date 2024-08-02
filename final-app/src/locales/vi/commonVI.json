@@ -52,7 +52,27 @@
     "friendrequest":"đã gửi cho bạn một lời mời kết bạn",
     "commentactivity":"bình luận về bài viết của bạn",
     "likeactivity":"thích bài viết của bạn",
-    "shareactivity":"chia sẻ bài viết của bạn"
-
+    "shareactivity":"chia sẻ bài viết của bạn",
+    "nonoti":"Không có thông báo nào khác",
+    "nofriendrequest":"Không có lời mời kết bạn nào khác",
+    "updateprofile":"Cập nhật trang cá nhân thành công",
+    "select":"Chọn",
+    "addfriend":"Kết bạn",
+    "allfriend":"Tất cả bạn bè",
+    "nofriend":"Không có bạn bè",
+    "rejectrequest":"Từ chối lời mời kết bạn",
+    "acceptrequest":"Chấp nhận lời mời kết bạn",
+    "logout":"Đăng xuất thành công",
+    "createpost":"Tạo bài viết thành công",
+    "commentpost":"Bình luận thành công",
+    "deletecomment":"Xóa bình luận thành công",
+    "sharepost":"Chia sẻ bài viết thành công",
+    "likepost":"Thích bài viết thành công",
+    "unlikepost":"Bỏ thích bài viết thành công",
+    "sendrequest":"Gửi lời mời kết bạn",
+    "deleterequest":"Hủy lời mời",
+    "acept":"Chấp nhận",
+    "feeds":"Bảng feed của bạn",
+    "activity":"Hoạt động gần đây"
   }
 }

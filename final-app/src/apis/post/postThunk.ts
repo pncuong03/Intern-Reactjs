@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { axiosInstance } from '~/utilities/services/initRequest'
-import { decreaseLike, increaseComment, increaseLike, increaseShare } from '~/slices/post/postSlice'
+import { decreaseLike, deletePostofMe, increaseComment, increaseLike, increaseShare } from '~/slices/post/postSlice'
 
 export const fetchPostPublicOfFriend = createAsyncThunk('post/fetchPostPulic', async (thunkAPI) => {
   try {
@@ -16,7 +16,7 @@ export const fetchPostPublicOfFriend = createAsyncThunk('post/fetchPostPulic', a
   } catch (error) {}
 })
 
-export const fetchPostFriend = createAsyncThunk('post/fetchPostFriend', async (friendId, thunkAPI) => {
+export const fetchPostFriend = createAsyncThunk('post/fetchPostFriend', async (friendId: string, thunkAPI) => {
   try {
     const accessToken = localStorage.getItem('ACCESS_TOKEN') || ''
     const auth = {
@@ -25,6 +25,7 @@ export const fetchPostFriend = createAsyncThunk('post/fetchPostFriend', async (f
       }
     }
     const data = await axiosInstance.get(`/post/list/post-friend?friendId=${friendId}`, auth)
+
     return data.data.content
   } catch (error) {}
 })
@@ -87,17 +88,6 @@ export const fetchDetailPost = createAsyncThunk('post/fetchDetailPost', async (p
 //   async ({ createPostInputString, images, accessToken, postId }: UpdatePostPayload, thunkAPI) => {
 //     try {
 //       await apiUpdatePost({ createPostInputString, images }, accessToken, postId)
-//     } catch (error) {
-//       return thunkAPI.rejectWithValue(error)
-//     }
-//   }
-// )
-
-// export const deletePost = createAsyncThunk(
-//   'post/deletePost',
-//   async ({ accessToken, postId }: FetchDeletePlayload, thunkAPI) => {
-//     try {
-//       await apiDeletePost(accessToken, postId)
 //     } catch (error) {
 //       return thunkAPI.rejectWithValue(error)
 //     }
@@ -177,8 +167,22 @@ export const deleteComment = createAsyncThunk('post/deleteComment', async (comme
       }
     }
     await axiosInstance.delete(`/user/post/interaction/comment/delete?commentId=${commentId}`, auth)
+
     // thunkAPI.dispatch(addComment(comment))
   } catch (error) {
     return thunkAPI.rejectWithValue(error)
   }
+})
+
+export const deletePost = createAsyncThunk('post/deletePost', async (postId: string, thunkAPI) => {
+  try {
+    const accessToken = localStorage.getItem('ACCESS_TOKEN') || ''
+    const auth = {
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
+    }
+    await axiosInstance.delete(`/post/delete?postId=${postId}`, auth)
+    thunkAPI.dispatch(deletePostofMe(postId))
+  } catch (error) {}
 })

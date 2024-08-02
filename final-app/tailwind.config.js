@@ -1,3 +1,5 @@
+const { keyframes } = require('@emotion/react')
+
 module.exports = {
   media: 'class',
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
@@ -38,13 +40,12 @@ module.exports = {
       },
       // E4E6EB
       backgroundImage: {
-        // Background image custom
         'gradient-primary': 'linear-gradient(0deg, rgba(29, 31, 47, 0) 18.23%, rgba(37, 188, 208, 0.38) 100%)',
         'gradient-yellow': 'linear-gradient(180deg, #FF824D 0%, #FFC84D 100%), linear-gradient(0deg, #181818, #181818)',
         'gradient-blue': 'linear-gradient(180deg, #4E7BF1 0%, #25BCD0 100%), linear-gradient(0deg, #181818, #181818)',
         vector: "url('/public/img/vector.png')",
-        // primary: "linear-gradient(157.6deg, #F626D1 21.14%, #822CF1 80.69%)",
-        // main: "linear-gradient(360deg, #FFE7E6 0%, #FFBFED 100%)",
+        default: "url('/public/img/bg-default.png')",
+
         linear: 'linear-gradient(180deg, #1A3437 0%, #181818 100%)'
       },
       backgroundColor: {
@@ -56,6 +57,19 @@ module.exports = {
       boxShadow: {
         // box shadow custom
         main: '0px 5px 15px rgba(0, 0, 0, 0.1)'
+      },
+      keyframes: {
+        fadeIn: {
+          '0%': {
+            opacity: 0
+          },
+          '100%': {
+            opacity: 1
+          }
+        }
+      },
+      animation: {
+        fadein: 'fade-in 1s ease-in-out 0.25s 1'
       }
     }
   },

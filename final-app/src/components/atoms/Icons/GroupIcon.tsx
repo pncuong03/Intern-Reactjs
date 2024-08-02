@@ -4,8 +4,8 @@ export function GroupIcon(props: React.SVGAttributes<unknown>) {
   return (
     <svg
       viewBox='0 0 24 24'
-      width='24'
-      height='24'
+      width='40'
+      height='40'
       fill='currentColor'
       className='x19dipnz x1lliihq x1k90msu x2h7rmj x1qfuztq'
       style={{ color: 'var(--secondary-icon)' }}

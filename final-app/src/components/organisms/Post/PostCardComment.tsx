@@ -16,7 +16,7 @@ import { likePost, unLikePost } from '~/apis/post/postThunk'
 import { access } from 'fs/promises'
 import clsx from 'clsx'
 import GetShareModal from './GetShareModal'
-import GetCommnetModal from './GetCommentModal'
+import GetDetailModal from './GetDetailModal'
 
 interface IProps {
   post: IPost
@@ -33,10 +33,10 @@ const PostCardComment: React.FC<IProps> = ({ post }) => {
   const likeHandler = () => {
     if (post.hasLike === true) {
       dispatch(unLikePost(post?.id))
-      toast.success('Unliked sucess')
+      toast.success(t('home.unlikepost'))
     } else {
       dispatch(likePost(post?.id))
-      toast.success('Liked sucess')
+      toast.success(t('home.likepost'))
     }
   }
 
@@ -58,11 +58,16 @@ const PostCardComment: React.FC<IProps> = ({ post }) => {
           <p className='max-h-10 truncate px-3 text-md'>{post.content}</p>
         </div>
       ) : null}
-      {post.imageUrl ? (
-        <div className='h-76 max-h-100 w-full'>
-          <img src={post.imageUrl} alt='postImage' className='max-h-100 w-full object-cover' />
+
+      {post.imageUrls?.length > 0 && (
+        <div className='flex flex-wrap gap-2'>
+          {post.imageUrls.map((url, index) => (
+            <div key={index} className='h-76 max-h-100 w-full'>
+              <img src={url} alt={`postImage-${index}`} className='max-h-100 w-full object-cover' />
+            </div>
+          ))}
         </div>
-      ) : null}
+      )}
 
       <div className='flex w-full flex-col space-y-2 p-2 px-4'>
         <div className={`flex items-center justify-between  text-sm`}>
@@ -117,12 +122,12 @@ const PostCardComment: React.FC<IProps> = ({ post }) => {
         postId={post.id}
       />
       <GetShareModal isOpen={isOpenShared} closeModal={() => setIsOpenShared(false)} shareId={post.id} />
-      <GetCommnetModal
+      {/* <GetDetailModal
         bgColor=''
         isOpen={isOpenCommented}
         closeModal={() => setIsOpenCommented(false)}
         postId={post.id}
-      />
+      /> */}
     </div>
   )
 }

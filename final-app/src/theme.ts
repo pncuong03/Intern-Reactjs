@@ -1,9 +1,9 @@
 import { experimental_extendTheme as extendTheme } from '@mui/material/styles'
 
 const theme = extendTheme({
-  typography: {
-    fontFamily: 'Quicksand, sans-serif'
-  },
+  // typography: {
+  //   fontFamily: 'Quicksand, sans-serif'
+  // },
   colorSchemes: {
     light: {
       palette: {
