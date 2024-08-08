@@ -13,28 +13,28 @@ const videoData = [
     id: 1,
     user: 'Cường',
     time: 'Khoang 2 gio truoc',
-    description: 'Qua man nhan',
+    description: 'Trận chung kết của thế kỷ',
     videoUrl: 'https://www.youtube.com/embed/tpPmn2ZuOV8'
   },
   {
     id: 2,
     user: 'Hà anh',
     time: 'Khoang 3 gio truoc',
-    description: 'Video thú vị',
+    description: 'Tài năng của siêu sao',
     videoUrl: 'https://www.youtube.com/embed/786rNxVoQtU'
   },
   {
     id: 3,
     user: 'Tuyết',
     time: 'Khoang 2 gio truoc',
-    description: 'Qua man nhan',
+    description: 'Khoảnh khắc của siêu sao thế kỷ',
     videoUrl: 'https://www.youtube.com/embed/ZmKy_fnRM_E'
   },
   {
     id: 4,
     user: 'Hải',
     time: 'Khoang 3 gio truoc',
-    description: 'Video thú vị',
+    description: 'Nhũng vũ công Samba',
     videoUrl: 'https://www.youtube.com/embed/_TleFMmKbco'
   }
   // Add more video data here

@@ -28,7 +28,7 @@ const Register: React.FC = () => {
                   type='text'
                   name='fullName'
                   placeholder='Fullname'
-                  className='w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600'
+                  className='w-full h-14 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600'
                 />
                 <ErrorMessage name='fullname' component='div' className='text-red-500 text-sm mt-1' />
               </div>
@@ -37,7 +37,7 @@ const Register: React.FC = () => {
                   type='text'
                   name='username'
                   placeholder='Username'
-                  className='w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600'
+                  className='w-full h-14 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600'
                 />
                 <ErrorMessage name='username' component='div' className='text-red-500 text-sm mt-1' />
               </div>
@@ -46,14 +46,14 @@ const Register: React.FC = () => {
                   type='password'
                   name='password'
                   placeholder='Password'
-                  className='w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600'
+                  className='w-full h-14 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600'
                 />
                 <ErrorMessage name='password' component='div' className='text-red-500 text-sm mt-1' />
               </div>
               <div>
                 <button
                   type='submit'
-                  className='w-full p-3 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-600'
+                  className='w-full h-14 text-lg font-medium p-3 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-600'
                 >
                   Sign up
                 </button>
@@ -64,7 +64,7 @@ const Register: React.FC = () => {
         <div className='text-center mt-3'>
           <Link
             to='/login'
-            className='block w-full p-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600'
+            className='block w-full h-14 text-lg font-medium p-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600'
           >
             Login
           </Link>

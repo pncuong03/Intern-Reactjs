@@ -2,28 +2,29 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { toast } from 'react-toastify'
 import { logout } from '~/apis/auth'
 import { userLogin, userRegister } from '~/apis/auth/authThunk'
-import { FetchStatus } from '~/types/user'
+import { FetchStatus, IUserGoogle } from '~/types/user'
 
 export interface AuthState {
   loginStatus: FetchStatus
   accessToken: string | null
+  userGoogle: IUserGoogle | null
 }
 
 const initialState: AuthState = {
   loginStatus: FetchStatus.idle,
-  accessToken: null
+  accessToken: null,
+  userGoogle: null
 }
 
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
+    saveUserGoogle: (state, action: PayloadAction<IUserGoogle>) => {
+      state.userGoogle = action.payload
+    },
     logOut: () => {
       logout()
-      return {
-        loginStatus: FetchStatus.idle,
-        accessToken: null
-      }
     }
   },
   extraReducers: (builder) => {

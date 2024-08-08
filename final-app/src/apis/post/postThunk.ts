@@ -151,7 +151,7 @@ export const commentPost = createAsyncThunk(
       }
       await axiosInstance.post(`/user/post/interaction/comment?postId=${postId}&comment=${comment}`, {}, auth)
       thunkAPI.dispatch(fetchDetailPost(postId))
-      thunkAPI.dispatch(increaseComment(comment))
+      thunkAPI.dispatch(increaseComment(postId))
     } catch (error) {
       return thunkAPI.rejectWithValue(error)
     }

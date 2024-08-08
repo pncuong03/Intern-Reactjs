@@ -9,8 +9,8 @@ export function DeleteIcon(props: React.SVGAttributes<unknown>) {
       fill='gray'
       version='1.1'
       id='Capa_1'
-      width='2.5em'
-      height='1.5em'
+      width='2em'
+      height='1em'
       viewBox='0 0 482.428 482.429'
     >
       <g>

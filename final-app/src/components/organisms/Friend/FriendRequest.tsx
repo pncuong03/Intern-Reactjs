@@ -16,10 +16,10 @@ const FriendRequest = () => {
     dispatch(fetchListRequest())
   }, [])
   return (
-    <div className='h-full w-full pt-16 pl-[420px]'>
+    <div className='h-full p-4 w-full pt-64 md:pt-16 md:pl-[420px]'>
       <p className='font-semibold text-2xl py-3'>{t('home.request')}</p>
 
-      <div className='grid grid-cols-3 gap-3'>
+      <div className='grid md:grid-cols-4 grid-cols-2 md:gap-16 gap-2 '>
         {data.length > 0 ? (
           data.map((friend: any) => <FriendRequestCard key={friend.id} data={friend} />)
         ) : (

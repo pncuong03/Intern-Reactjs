@@ -10,17 +10,16 @@ import { useColorScheme } from '@mui/material'
 import GetLikeModal from './GetLikeModal'
 import TimeComparison from '~/const/dateFormat'
 import { toast } from 'react-toastify'
-import { AppDispatch, RootState } from '~/app/appHooks'
-import { useDispatch, useSelector } from 'react-redux'
+import { AppDispatch } from '~/app/appHooks'
+import { useDispatch } from 'react-redux'
 import { deletePost, fetchDetailPost, likePost, unLikePost } from '~/apis/post/postThunk'
 import clsx from 'clsx'
 import GetShareModal from './GetShareModal'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import Collapse from '@mui/material/Collapse'
 import GetComment from './CommentModal'
-import { Elipsis } from '~/components/atoms/Icons/Elipsis'
 import { DeleteIcon } from '~/components/atoms/Icons/DeleteIcon'
-import CarouselCustom from '~/components/atoms/Carousel/CarouselImage'
+import CarouselImage from '~/components/atoms/Carousel/CarouselImage'
 
 interface IProps {
   post: IPost
@@ -29,8 +28,8 @@ interface IProps {
 const PostCard: React.FC<IProps> = ({ post }) => {
   const { t } = useTranslation()
   const dispatch = useDispatch<AppDispatch>()
+
   const { mode } = useColorScheme()
-  const navigate = useNavigate()
   const [isOpenLiked, setIsOpenLiked] = useState(false)
   const [isOpenShared, setIsOpenShared] = useState(false)
   const [isOpenComment, setIsOpenComment] = useState(false)
@@ -38,10 +37,8 @@ const PostCard: React.FC<IProps> = ({ post }) => {
   const likeHandler = () => {
     if (post.hasLike === true) {
       dispatch(unLikePost(post?.id))
-      toast.success(t('home.unlikepost'))
     } else {
       dispatch(likePost(post?.id))
-      toast.success(t('home.likepost'))
     }
   }
 
@@ -53,43 +50,40 @@ const PostCard: React.FC<IProps> = ({ post }) => {
 
   const handleDelete = (postId: string) => {
     dispatch(deletePost(postId))
-      .unwrap()
-      .then(() => {
-        toast.success(t('home.deletepost'))
-      })
-      .catch((error) => {
-        toast.error(t('home.deletepostError'))
-      })
   }
 
   return (
-    <div
-      className={`h-auto rounded-md shadow-md max-w-[370px] lg:max-w-[720px] ${mode === 'light' ? 'bg-white' : 'bg-black-700'} `}
-    >
-      <Link to={`${post.userId}`} className='flex items-center space-x-2 p-4'>
-        <div className='h-11 w-12'>
-          <img src={post?.imageUrl} className='h-full w-full rounded-full' alt='dp' />
-        </div>
-        <div className='flex flex-grow flex-col'>
-          <p className='text-lg font-semibold text-black'>{post.fullName}</p>
-          <span className='text-xs text-gray-400'>
-            <TimeComparison time={post.createdAt} />
-          </span>
-        </div>
-        {/* <div>
-          <Elipsis />
-        </div> */}
-        <button onClick={() => handleDelete(post?.id)}>
+    <div className={`h-auto rounded-md shadow-md  ${mode === 'light' ? 'bg-white' : 'bg-black-300'} `}>
+      <div className='flex justify-between'>
+        <Link to={`${post.userId}`} className='flex items-center space-x-2 p-4'>
+          <div className='h-11 w-12'>
+            <img src={post?.imageUrl} className='h-full w-full rounded-full' alt='dp' />
+          </div>
+          <div className='flex flex-grow flex-col'>
+            <p className='text-lg font-semibold text-black'>{post.fullName}</p>
+            <span className='text-xs text-gray-400'>
+              <TimeComparison t={t} time={post.createdAt} />
+            </span>
+          </div>
+        </Link>
+        <button className='p-4' onClick={() => handleDelete(post?.id)}>
           <DeleteIcon />
         </button>
-      </Link>
+      </div>
       {post.content ? (
         <div className='mb-1 pl-2'>
-          <p className='max-h-10 truncate px-3 text-md font-normal'>{post.content}</p>
+          <p className='max-h-24 overflow-hidden text-ellipsis px-3 text-md font-normal break-words'>{post.content}</p>
         </div>
       ) : null}
-      {post.imageUrls && <CarouselCustom images={post.imageUrls} />}
 
+      {/* {post.imageUrls && <CarouselImage images={post.imageUrls} />} */}
+      {post.imageUrls
+        ? post.imageUrls.map((image) => (
+            <div className=' max-h-100 w-full' key={image}>
+              <img src={image} alt='postImage' className='max-h-100 w-full object-cover rounded-xl' />
+            </div>
+          ))
+        : null}
       <div className='flex w-full flex-col space-y-2 p-3'>
         <div
           className={`flex items-center justify-between ${mode === 'light' ? 'border-gray-200' : 'border-gray-600'} border-b-[1px] pb-2 text-sm`}

@@ -7,6 +7,7 @@ import { toast } from 'react-toastify'
 import { AppDispatch, RootState } from '~/app/appHooks'
 import { useDispatch, useSelector } from 'react-redux'
 import { likePost, unLikePost } from '~/apis/post/postThunk'
+import CarouselImage from '~/components/atoms/Carousel/CarouselImage'
 
 interface IProps {
   post: IPost
@@ -18,7 +19,7 @@ const PostNoCard: React.FC<IProps> = ({ post }) => {
   const { mode } = useColorScheme()
 
   return (
-    <div className={`h-auto w-full rounded-xl ${mode === 'light' ? 'bg-white' : 'bg-black-700'} `}>
+    <div className={`h-auto w-full rounded-xl ${mode === 'light' ? 'bg-white' : 'bg-black-300'} `}>
       <div className='flex items-center space-x-2 p-2.5 px-4 rounded-lg'>
         <div className='h-11 w-12'>
           <img src={post.imageUrl} className='h-full w-full rounded-full' alt='dp' />
@@ -26,7 +27,7 @@ const PostNoCard: React.FC<IProps> = ({ post }) => {
         <div className='flex flex-grow flex-col'>
           <p className='text-lg font-semibold text-black'>{post.fullName}</p>
           <span className='text-xs font-thin text-gray-400'>
-            <TimeComparison time={post.createdAt} />
+            <TimeComparison t={t} time={post.createdAt} />
           </span>
         </div>
       </div>
@@ -42,6 +43,7 @@ const PostNoCard: React.FC<IProps> = ({ post }) => {
             </div>
           ))
         : null}
+      {/* {post.imageUrls && <CarouselImage images={post.imageUrls} />} */}
     </div>
   )
 }

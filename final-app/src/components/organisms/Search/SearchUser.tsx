@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { List, ListItem, Box, useColorScheme } from '@mui/material'
+import { List, ListItem, useColorScheme } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { fetchSearchUser } from '~/apis/user/userThunk'
 import Input from '~/components/atoms/Input'
@@ -30,8 +30,6 @@ const SearchComponent: React.FC = () => {
     const handler = setTimeout(async () => {
       if (search) {
         dispatch(fetchSearchUser(search))
-        // const data = await fetchSearchUser(search)
-        // dispatch(searchUser(data))
         setListUser(data)
         setShowDropdown(true)
       } else {
@@ -43,7 +41,7 @@ const SearchComponent: React.FC = () => {
     return () => {
       clearTimeout(handler)
     }
-  }, [search])
+  }, [search, data, dispatch])
 
   const handleSendRequest = (id: string) => {
     dispatch(sendRequest(id))
@@ -60,53 +58,56 @@ const SearchComponent: React.FC = () => {
     toast.success(t('home.deleterequest'))
   }
 
-  const handleNavigate = () => {
-    navigate('/profile/user', { state: { listUser } })
+  const handleNavigate = (user: ISearchUser) => {
+    setSearch('')
+    setShowDropdown(false)
+    navigate('/profile/user', { state: { user } })
   }
+
   return (
     <div className='relative'>
       <div className='hidden xl:flex '>
         <Input
           placeholder={t('home.search')}
-          className={`rounded-full border ${mode === 'light' ? 'bg-white' : 'bg-neutral-700'}`}
+          className={`rounded-full border ${mode === 'light' ? 'bg-neutral-400' : 'bg-neutral-700 border-neutral-700'}`}
           value={search}
           onChange={handleChange}
           onFocus={() => setShowDropdown(true)}
-          onBlur={() => setTimeout(() => setShowDropdown(true), 200)}
+          onBlur={() => setTimeout(() => setShowDropdown(false), 200)}
         />
         <div>
           {showDropdown && (
             <div
-              className={`absolute top-full mt-2  -left-12 w-80 ${mode === 'light' ? 'bg-white' : 'bg-neutral-700'} shadow-lg rounded-b-lg`}
+              className={`absolute top-full mt-2 -left-12 w-80 ${mode === 'light' ? 'bg-white' : 'bg-black-700'} shadow-lg rounded-b-lg`}
             >
               <List className='flex flex-col gap-3 '>
-                {listUser?.map((data: any) => (
+                {listUser?.map((user: ISearchUser) => (
                   <ListItem
-                    key={data?.id}
-                    className='hover:bg-gray-100 p-2 rounded-md'
-                    onClick={() => setSearch(data.fullName)}
+                    key={user?.id}
+                    className={` ${mode === 'light' ? 'hover:bg-gray-100' : 'hover:bg-neutral-600'} p-2 rounded-md`}
+                    onClick={() => handleNavigate(user)}
                   >
-                    <button className='flex items-center gap-3 p-2 ' onClick={() => handleNavigate()}>
+                    <button className='flex items-center gap-3 p-2'>
                       <div className='h-10 w-10'>
-                        <img src={data?.imageUrl} className='h-full w-full rounded-full' alt='dp' />
+                        <img src={user?.imageUrl} className='h-full w-full rounded-full' alt='dp' />
                       </div>
 
                       <div className='flex flex-col'>
-                        <p className='text-md font-normal'>{data?.fullName}</p>
-                        {/* {data?.isFriend ? (
+                        <p className='text-md font-normal'>{user?.fullName}</p>
+                        {/* {user?.isFriend ? (
                           <div>
                             <p className='text-md font-normal text-sm text-neutral-200'>{t('home.friend')}</p>
                           </div>
-                        ) : data?.hadSendFriendRequest ? (
-                          <Button onClick={() => handleDeleteRequest(data?.id)} className='text-sm text-neutral-200'>
+                        ) : user?.hadSendFriendRequest ? (
+                          <Button onClick={() => handleDeleteRequest(user?.id)} className='text-sm text-neutral-200'>
                             {t('home.deleterequest')}
                           </Button>
-                        ) : data?.hadReceiverFriendRequest ? (
-                          <Button onClick={() => handleAccept(data?.id)} className='text-sm text-neutral-200'>
+                        ) : user?.hadReceiverFriendRequest ? (
+                          <Button onClick={() => handleAccept(user?.id)} className='text-sm text-neutral-200'>
                             {t('home.acept')}
                           </Button>
                         ) : (
-                          <Button onClick={() => handleSendRequest(data?.id)} className='text-sm text-neutral-200'>
+                          <Button onClick={() => handleSendRequest(user?.id)} className='text-sm text-neutral-200'>
                             {t('home.addfriend')}
                           </Button>
                         )} */}

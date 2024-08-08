@@ -37,7 +37,7 @@ const ProfileFriend: React.FC = () => {
       <div className={`h-auto w-full shadow ${mode === 'light' ? 'bg-white' : 'bg-neutral-800'}`}>
         <div className={`mx-auto h-full max-w-6xl rounded-md ${mode === 'light' ? 'bg-white' : 'bg-neutral-800'}`}>
           <EditBackground data={userInfo} />
-          <Info data={userInfo} />
+          <Info data={userInfo} dataFriend={listFriend} />
         </div>
       </div>
 
@@ -47,8 +47,7 @@ const ProfileFriend: React.FC = () => {
           <Album />
           <FriendProfile data={listFriend} />
         </div>
-        <div className='grid gap-2 col-span-2'>
-          {/* <Feeds data={data} /> */}
+        <div className='grid gap-2 col-span-2 '>
           <ShareCard post={posts} />
         </div>
       </div>

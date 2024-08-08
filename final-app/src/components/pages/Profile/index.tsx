@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import Feeds from '../../organisms/Feeds/Feeds'
 import Album from '../../organisms/Profile/Footer/Album'
 import FriendProfile from '~/components/organisms/Profile/Footer/Friend'
 import { useColorScheme } from '@mui/material'
@@ -20,7 +19,6 @@ const ProfilePage: React.FC = () => {
   const data = useSelector((state: RootState) => state.post.postOfMe)
   const userInfo = useSelector((state: RootState) => state.user.user)
   const listFriend = useSelector((state: RootState) => state.friend.listFriend)
-  console.log(data)
 
   useEffect(() => {
     dispatch(fetchPostOfMe())
@@ -35,23 +33,22 @@ const ProfilePage: React.FC = () => {
   }, [dispatch])
 
   return (
-    <div>
-      <div className={`h-auto w-full shadow ${mode === 'light' ? 'bg-white' : 'bg-neutral-300'}`}>
-        <div className={`mx-auto h-full max-w-6xl rounded-md ${mode === 'light' ? 'bg-white' : 'bg-neutral-800'}`}>
+    <div className=''>
+      <div className={`h-auto w-full shadow ${mode === 'light' ? 'bg-white' : 'bg-neutral-800'}`}>
+        <div className={`mx-auto h-full max-w-6xl rounded-md ${mode === 'light' ? 'bg-white ' : 'bg-neutral-800'}`}>
           <EditBackground data={userInfo} />
-          <Info data={userInfo} />
+          <Info data={userInfo} dataFriend={listFriend} />
         </div>
       </div>
 
-      <div className='mx-auto w-full lg:grid grid-cols-3 gap-4 h-full mt-6 px-3 md:px-6 lg:px-14 2xl:px-96'>
-        <div className='grid gap-4 mb-4 col-span-1 h-fit'>
+      <div className='mx-auto w-full lg:grid grid-cols-3 gap-4 h-full mt-6 px-2 md:px-6 2xl:px-96'>
+        <div className='grid gap-4 mb-4 col-span-1 h-fit '>
           <Intro data={userInfo} />
           <Album />
           <FriendProfile data={listFriend} />
         </div>
-        <div className='grid gap-2 col-span-2 '>
+        <div className='grid gap-2 col-span-2 w-[45rem]'>
           <CreatePostBox bgColor='' isOpen={true} closeModal={() => {}} />
-          {/* <Feeds data={data} /> */}
           <ShareCard post={data} />
         </div>
       </div>

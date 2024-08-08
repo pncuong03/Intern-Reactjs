@@ -8,15 +8,17 @@ interface ImageCarouselProps {
 
 const CarouselImage: React.FC<ImageCarouselProps> = ({ images }) => {
   return (
-    <Swiper spaceBetween={10} slidesPerView={1} pagination={{ clickable: true }}>
-      {images.map((image, index) => (
-        <SwiperSlide key={index}>
-          <div className='h-76'>
-            <img src={image} alt={`postImage-${index}`} className=' w-full object-cover rounded-xl' />
-          </div>
-        </SwiperSlide>
-      ))}
-    </Swiper>
+    <div className='w-full'>
+      <Swiper spaceBetween={0} slidesPerView={1} pagination={{ clickable: true }}>
+        {images.map((image, index) => (
+          <SwiperSlide key={index}>
+            <div className='h-full '>
+              <img src={image} alt={`postImage-${index}`} className=' h-full object-cover rounded-xl' />
+            </div>
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </div>
   )
 }
 

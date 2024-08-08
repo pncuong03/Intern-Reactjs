@@ -49,27 +49,27 @@ const PostCardComment: React.FC<IProps> = ({ post }) => {
         <div className='flex flex-grow flex-col'>
           <p className='text-lg font-semibold text-black'>{post.fullName}</p>
           <span className='text-xs font-thin text-gray-400'>
-            <TimeComparison time={post.createdAt} />
+            <TimeComparison t={t} time={post.createdAt} />
           </span>
         </div>
       </div>
       {post.content ? (
         <div className='mb-1'>
-          <p className='max-h-10 truncate px-3 text-md'>{post.content}</p>
+          <p className='max-h-24 overflow-hidden text-ellipsis px-3 text-md font-normal break-words'>{post.content}</p>
         </div>
       ) : null}
 
       {post.imageUrls?.length > 0 && (
         <div className='flex flex-wrap gap-2'>
           {post.imageUrls.map((url, index) => (
-            <div key={index} className='h-76 max-h-100 w-full'>
-              <img src={url} alt={`postImage-${index}`} className='max-h-100 w-full object-cover' />
+            <div key={index} className='h-76 max-h-96 w-full'>
+              <img src={url} alt={`postImage-${index}`} className='max-h-96 w-full object-cover' />
             </div>
           ))}
         </div>
       )}
 
-      <div className='flex w-full flex-col space-y-2 p-2 px-4'>
+      <div className='flex w-full mt-4 flex-col space-y-2 p-2 px-4'>
         <div className={`flex items-center justify-between  text-sm`}>
           <div className='flex items-center'>
             <div className='flex items-center'>

@@ -13,13 +13,15 @@ export const userLogin = createAsyncThunk<string, { username: string; password: 
   }
 )
 
-export const userRegister = createAsyncThunk<string, { fullname: string; username: string; password: string }>(
+export const userRegister = createAsyncThunk<string, { fullName: any; username: any; password: string }>(
   'auth/register',
   async (params, thunkAPI) => {
     try {
       const response = await authRegister(params)
+
       return response.data.accessToken
     } catch (error) {
+      // return thunkAPI.rejectWithValue(error)
       return thunkAPI.rejectWithValue(error)
     }
   }

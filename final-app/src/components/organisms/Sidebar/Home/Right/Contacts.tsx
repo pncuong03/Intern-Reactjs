@@ -2,6 +2,7 @@ import { useColorScheme } from '@mui/material'
 import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 import { fetchListFriend } from '~/apis/friend/friendThunk'
 import { AppDispatch, RootState } from '~/app/appHooks'
 import Button from '~/components/atoms/Button'
@@ -24,24 +25,25 @@ const Contacts = () => {
         <p className='font-semibold text-lg '>{t('home.contact')}</p>
 
         <div className='flex items-center space-x-3S'>
-          <Button className='rounded-full'>
+          {/* <Button className='rounded-full'>
             <SearchIcon />
-          </Button>
+          </Button> */}
           <Button className='rounded-full'>
             <Elipsis />
           </Button>
         </div>
       </div>
 
-      <div>
-        {friends.map((friend) => (
-          <div
+      <div className='flex flex-col gap-3'>
+        {friends?.map((friend) => (
+          <Link
+            to={`/${friend.id}`}
             key={friend.id}
             className={` mb-2 flex gap-3 h-12 cursor-pointer items-center space-x-2 rounded-md p-2   ${mode === 'light' ? 'hover:bg-gray-200' : 'hover:bg-neutral-800'}`}
           >
-            <img className='h-10 w-10 rounded-full' src={friend.imageUrl} alt='user' />
-            <p className='text-md font-medium '>{friend.fullName}</p>
-          </div>
+            <img className='h-12 w-12 rounded-full' src={friend.imageUrl} alt='user' />
+            <p className='text-lg font-medium '>{friend.fullName}</p>
+          </Link>
         ))}
       </div>
     </div>

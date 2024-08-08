@@ -1,39 +1,112 @@
-import React, { useEffect, useState } from 'react'
-import Feeds from '../Feeds/Feeds'
-import { TPostView } from '~/types/post'
-import EditBackground from '../Profile/Header/EditBackground'
-import Intro from '../Profile/Footer/Intro'
-import Album from '../Profile/Footer/Album'
-import FriendProfile from '~/components/organisms/Profile/Footer/Friend'
+import React, { useEffect } from 'react'
 import { useColorScheme } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import Info from '../Profile/Header/Info'
-import Button from '~/components/atoms/Button'
 import { acceptRequest, deleteRequestFriend, sendRequest } from '~/apis/friend/friendThunk'
 import { toast } from 'react-toastify'
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from '~/app/appHooks'
 import { useLocation } from 'react-router-dom'
-import { ISearchUser } from '~/types/user'
+import Album from '../Profile/Footer/Album'
+import Button from '~/components/atoms/Button'
+import { fetchPostFriend } from '~/apis/post/postThunk'
+import PostCard from '../Post/PostCard'
+
+const posts = [
+  {
+    id: 8,
+    userId: 2,
+    state: 'PUBLIC',
+    fullName: 'Nguyễn Thị Tuyết',
+    imageUrl: 'http://res.cloudinary.com/ds9ipqi3z/image/upload/v1710954680/bpnracdpkspbzt0njy8n.png',
+    createdAt: '2024-08-07T04:28:41.943433',
+    content: "Khung cảnh từ đài quan sát 'Cầu Hai Hồ' phía trên Interlaken, đầy ngoạn mục",
+    imageUrls: ['http://res.cloudinary.com/ds9ipqi3z/image/upload/v1722979679/jhdrnfzg9drpjpkrir1k.jpg'],
+    shareId: null,
+    sharePost: null,
+    likeCount: 0,
+    commentCount: 0,
+    shareCount: 0,
+    comments: null,
+    hasLike: null,
+    type: 'USER'
+  },
+  {
+    id: 9,
+    userId: 2,
+    state: 'PUBLIC',
+    fullName: 'Nguyễn Thị Tuyết',
+    imageUrl: 'http://res.cloudinary.com/ds9ipqi3z/image/upload/v1710954680/bpnracdpkspbzt0njy8n.png',
+    createdAt: '2024-08-07T04:29:17.156077',
+    content:
+      'Bức hình chụp lại cảnh đoàn tàu bánh răng Jungfraubahn đang đi xuống từ đỉnh Jungfraujoch, ở độ cao 3.454m so với mực nước biển',
+    imageUrls: ['http://res.cloudinary.com/ds9ipqi3z/image/upload/v1722979714/qem0w59wmxukc95u7baw.jpg'],
+    shareId: null,
+    sharePost: null,
+    likeCount: 0,
+    commentCount: 0,
+    shareCount: 0,
+    comments: null,
+    hasLike: null,
+    type: 'USER'
+  },
+  {
+    id: 10,
+    userId: 2,
+    state: 'PUBLIC',
+    fullName: 'Nguyễn Thị Tuyết',
+    imageUrl: 'http://res.cloudinary.com/ds9ipqi3z/image/upload/v1710954680/bpnracdpkspbzt0njy8n.png',
+    createdAt: '2024-08-07T04:29:52.513012',
+    content:
+      'Một trong những điểm tham quan mà hành khách trên tuyến đường sắt Jungfraubahn nhìn thấy trong hành trình của họ là vùng nước màu xanh ngọc lục bảo của Hồ Fallboden, ở độ cao 2.100 mét so với mực nước biển',
+    imageUrls: ['http://res.cloudinary.com/ds9ipqi3z/image/upload/v1722979750/gilk7hl8l10jdyn6gzdj.jpg'],
+    shareId: null,
+    sharePost: null,
+    likeCount: 0,
+    commentCount: 0,
+    shareCount: 0,
+    comments: null,
+    hasLike: null,
+    type: 'USER'
+  },
+  {
+    id: 11,
+    userId: 4,
+    state: 'PUBLIC',
+    fullName: 'Phạm Thị Hà Anh',
+    imageUrl: 'http://res.cloudinary.com/ds9ipqi3z/image/upload/v1710954680/bpnracdpkspbzt0njy8n.png',
+    createdAt: '2024-08-07T04:31:52.805866',
+    content: 'Môn thể thao ưu thích của tôi',
+    imageUrls: ['http://res.cloudinary.com/ds9ipqi3z/image/upload/v1722979870/fw3myiheuvu8ex4y4zf5.jpg'],
+    shareId: null,
+    sharePost: null,
+    likeCount: 0,
+    commentCount: 0,
+    shareCount: 0,
+    comments: null,
+    hasLike: null,
+    type: 'USER'
+  }
+]
 
 const ProfileUser: React.FC = () => {
   const { t } = useTranslation()
   const { mode } = useColorScheme()
   const location = useLocation()
   const dispatch = useDispatch<AppDispatch>()
-  const data = location.state.data
+  const data = location.state.user
+
   const handleSendRequest = () => {
-    dispatch(sendRequest(data.id))
+    dispatch(sendRequest(data?.id))
     toast.success(t('home.sendrequest'))
   }
 
   const handleAccept = () => {
-    dispatch(acceptRequest(data.id))
+    dispatch(acceptRequest(data?.id))
     toast.success(t('home.acceptrequest'))
   }
 
   const handleDeleteRequest = async () => {
-    dispatch(deleteRequestFriend(data.id))
+    dispatch(deleteRequestFriend(data?.id))
     toast.success(t('home.deleterequest'))
   }
 
@@ -82,7 +155,7 @@ const ProfileUser: React.FC = () => {
       <div className='mx-auto w-full lg:grid grid-cols-3 gap-4 h-full mt-6 px-3 md:px-6 lg:px-14 2xl:px-96'>
         <div className='grid gap-4 mb-4 col-span-1 h-fit'>
           <div
-            className={`flex flex-col gap-4 rounded-lg  p-3 shadow ${mode === 'light' ? 'bg-white' : 'bg-neutral-800'}`}
+            className={`flex flex-col gap-4 rounded-lg p-3 shadow ${mode === 'light' ? 'bg-white' : 'bg-neutral-800'}`}
           >
             <p className='text-xl font-bold '>{t('home.intro')}</p>
             <div className='flex justify-center'>
@@ -116,9 +189,9 @@ const ProfileUser: React.FC = () => {
             <div className='flex justify-between'>
               <div>
                 <p className='text-xl font-bold '> {t('home.friend')}</p>
-                {/* <p className='text-sm text-gray-400'>
+                <p className='text-sm text-gray-400'>
                   {data.length} {t('home.friend')}
-                </p> */}
+                </p>
               </div>
               <a className='cursor-pointer text-sm text-primary hover:underline'>{t('home.seeallfriend')}</a>
             </div>
@@ -130,17 +203,13 @@ const ProfileUser: React.FC = () => {
                 </div>
               ))}
             </div> */}
-          </div>{' '}
+          </div>
         </div>
         <div className='grid gap-2 col-span-2 '>
           <div className='h-full w-full'>
-            {/* <div className='grid gap-2 grid-cols-1'>
-              {data?.content ? (
-                data.content.map((post, idx) => <PostCard key={idx} post={post} />)
-              ) : (
-                <p>No posts yet!</p>
-              )}
-            </div> */}
+            <div className='grid gap-2 grid-cols-1'>
+              {posts ? posts.map((post: any, idx) => <PostCard key={idx} post={post} />) : <p>No posts yet!</p>}
+            </div>
           </div>
         </div>
       </div>

@@ -18,6 +18,7 @@ const SidebarMessage = () => {
   const [search, setSearch] = useState<string>('')
   const [selectedChat, setSelectedChat] = useState<string | null>(null)
   const [content, setContent] = useState<string>('')
+  console.log(selectedChat)
 
   useEffect(() => {
     dispatch(fetchListChat())
@@ -81,7 +82,7 @@ const SidebarMessage = () => {
           {selectedChat !== null ? (
             listMessage?.map((message) =>
               message.isMe ? (
-                <div key={message.chatId} className='flex items-center gap-3 p-4 justify-end'>
+                <div key={message.id} className='flex items-center gap-3 p-4 justify-end'>
                   <p className='text-xl bg-blue-300 rounded-full w-auto p-2'>{message.message}</p>
                   <p>
                     <TimeComparison time={message.createdAt} />

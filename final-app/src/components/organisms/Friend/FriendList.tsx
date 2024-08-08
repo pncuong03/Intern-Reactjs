@@ -13,9 +13,7 @@ const FriendList = () => {
   const { t } = useTranslation()
 
   const dispatch = useDispatch<AppDispatch>()
-  // const handleFriendClick = (id: string) => {
-  //   navigate(`/profile/${id}`)
-  // }
+
   const listFriend = useSelector((state: RootState) => state.friend.listFriend)
 
   useEffect(() => {
@@ -23,10 +21,10 @@ const FriendList = () => {
   }, [])
 
   return (
-    <div className='h-full w-full pt-16 pl-[420px]'>
+    <div className='h-full w-full pt-64 md:pt-16 md:pl-[420px]'>
       <p className='font-semibold text-2xl py-3'>{t('home.allfriend')}</p>
 
-      <div className='grid grid-cols-3 gap-3'>
+      <div className='grid md:grid-cols-4 grid-cols-2 md:gap-16 gap-2 '>
         {listFriend.length > 0 ? (
           listFriend.map((friend: any) => <FriendCard key={friend.id} data={friend} />)
         ) : (

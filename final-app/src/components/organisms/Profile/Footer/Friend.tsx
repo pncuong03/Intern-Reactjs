@@ -14,7 +14,7 @@ const FriendProfile: React.FC<FriendProfileProps> = ({ data }) => {
     navigate('/friend/list')
   }
   return (
-    <div className={`flex flex-col gap-4 rounded-lg p-3 ${mode === 'light' ? 'bg-white' : 'bg-neutral-800'}`}>
+    <div className={`flex flex-col gap-4 rounded-lg p-3 shadow-md ${mode === 'light' ? 'bg-white' : 'bg-neutral-800'}`}>
       <div className='flex justify-between'>
         <div>
           <p className='text-xl font-bold '> {t('home.friend')}</p>
@@ -29,7 +29,7 @@ const FriendProfile: React.FC<FriendProfileProps> = ({ data }) => {
       <div className='grid grid-cols-3 gap-4'>
         {data?.map((item: any) => (
           <div key={item.id}>
-            <img className='w-full rounded-md' alt='photo' src={item.imageUrl} />
+            <img className='w-full h-24 rounded-lg' alt='photo' src={item.imageUrl} />
             <p className='mt-2 text-sm text-black dark:text-gray-200'>{item.fullName}</p>
           </div>
         ))}

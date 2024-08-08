@@ -7,7 +7,7 @@ const RightSidebar: React.FC = () => {
   const { t } = useTranslation()
   return (
     <div
-      className={`h-[calc(100vh-56px)] hover:overflow-y-auto lg:w-96 mt-12 py-3 pr-8 lg:flex flex-col gap-8  hidden`}
+      className={`h-[calc(100vh-56px)] hover:overflow-y-auto lg:w-96 mt-14 py-3 pr-8 lg:flex flex-col gap-8  hidden`}
     >
       <Advertis />
       <Contacts />

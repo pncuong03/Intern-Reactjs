@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch } from 'react-redux'
-import { fetchEditUser } from '~/apis/user/userThunk'
+import { editBackground, editUser } from '~/apis/user/userThunk'
 import { AppDispatch } from '~/app/appHooks'
 import Button from '~/components/atoms/Button'
 import { CameraIcon } from '~/components/atoms/Icons/CameraIcon'
@@ -21,13 +21,12 @@ const EditBackground: React.FC<IntroProps> = ({ data }) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0]
       const formData = new FormData()
-      formData.append('new_user_info', JSON.stringify({}))
       formData.append('image_background', file)
-      await dispatch(fetchEditUser(formData))
+      await dispatch(editBackground(formData))
     }
   }
 
-  const handleButtonClick = () => {
+  const handleBackgroud = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click()
     }
@@ -45,9 +44,9 @@ const EditBackground: React.FC<IntroProps> = ({ data }) => {
       {data?.state ? null : (
         <div className='absolute flex w-full items-center justify-center -bottom-4'>
           <div className='absolute bottom-[30px] right-[30px]'>
-            <Button className='bg-neutral-400 rounded-md px-1 text-neutral-100' onClick={handleButtonClick}>
+            <Button className='bg-neutral-400 rounded-md px-1 text-neutral-100' onClick={handleBackgroud}>
               <CameraIcon />
-              <p className='hidden lg:flex'>{t('home.editphoto')}</p>
+              <p className='hidden lg:flex pr-1'>{t('home.editphoto')}</p>
             </Button>
           </div>
         </div>

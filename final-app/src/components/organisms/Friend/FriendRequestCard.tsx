@@ -1,3 +1,4 @@
+import { useColorScheme } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useDispatch } from 'react-redux'
 import { toast } from 'react-toastify'
@@ -12,6 +13,7 @@ interface IProps {
 const FriendRequestCard: React.FC<IProps> = ({ data }) => {
   const { t } = useTranslation()
   const dispatch = useDispatch<AppDispatch>()
+  const { mode } = useColorScheme()
 
   const handleReject = () => {
     dispatch(rejectRequest(data?.id))
@@ -23,13 +25,15 @@ const FriendRequestCard: React.FC<IProps> = ({ data }) => {
     toast.success(t('home.acceptrequest'))
   }
   return (
-    <div className='rounded-2xl border border-gray-300 w-60 flex flex-col'>
+    <div
+      className={`rounded-2xl border-2 border-gray-300 md:w-60 w-44 flex flex-col ${mode === 'light' ? 'bg-neutral-400' : 'bg-black-700'} `}
+    >
       <div>
-        <img src={data.imageUrl} className='h-48 rounded-2xl w-full' />
+        <img src={data.imageUrl} className='md:h-56 h-36 rounded-2xl w-full' />
       </div>
-      <div className='pl-3 pt-2 h-20'>
-        <p className='font-semibold text-lg h-14'>{data.fullName}</p>
-        <p className='font-thin text-neutral-200'>26 bạn chung</p>
+      <div className='pl-3 pt-2'>
+        <p className='font-semibold text-lg h-10'>{data.fullName}</p>
+        {/* <p className='font-thin text-neutral-200'>26 bạn chung</p> */}
       </div>
       <div className='p-3 flex flex-col gap-1'>
         <Button onClick={handleAccept} className='bg-blue-600 text-white w-full rounded-lg'>

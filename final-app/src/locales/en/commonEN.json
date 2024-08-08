@@ -73,7 +73,12 @@
     "deleterequest":"Delete request",
     "acept":"Accept",
     "feeds":"Your feed",
-    "activity":"Recent activity"
+    "activity":"Recent activity",
+    "justnow":"Just now",
+    "minute":"minutes ago",
+    "hour":"hours ago",
+    "day":"days ago",
+    "logouts" : "Log out"
 
   }
 }

@@ -22,7 +22,7 @@ const CreatePostBox: React.FC<Props> = () => {
 
   return (
     <div
-      className={`flex flex-col rounded-lg h-max ${mode === 'light' ? 'bg-white' : 'bg-black-300'} p-3 px-4 shadow-md`}
+      className={`flex flex-col rounded-lg h-max p-4 shadow-md max-w-[370px] md:max-w-[720px]  ${mode === 'light' ? 'bg-white' : 'bg-black-300'} `}
     >
       <div
         className={`mb-2 flex items-center space-x-2 border-b pb-3 ${mode === 'light' ? 'border-gray-200' : 'border-gray-600'}`}
@@ -38,15 +38,15 @@ const CreatePostBox: React.FC<Props> = () => {
         </button>
       </div>
       <div className='-mb-1 flex space-x-3 text-sm'>
-        <Button className='gap-2 rounded-md'>
+        <Button className='gap-2 rounded-md' onClick={() => setIsOpen(true)}>
           <YouTubeIcon />
           <p className='font-semibold'>{t('home.create')}</p>
         </Button>
-        <Button className='gap-2 rounded-md'>
+        <Button className='gap-2 rounded-md' onClick={() => setIsOpen(true)}>
           <ImageIcon />
           <p className='font-semibold'>{t('home.photo')}</p>
         </Button>
-        <Button className='md:flex hidden gap-2 rounded-md'>
+        <Button className='md:flex hidden gap-2 rounded-md' onClick={() => setIsOpen(true)}>
           <SmileIcon />
           <p className='font-semibold'>{t('home.feeling')}</p>
         </Button>

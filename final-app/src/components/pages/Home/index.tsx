@@ -28,10 +28,9 @@ const HomePage = () => {
 
       <div
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-        className='overflow-y-auto flex mx-auto lg:mx-6 flex-col gap-2 w-[45rem] mt-16'
+        className='overflow-y-auto flex mx-auto lg:mx-6 p-2 flex-col gap-2 w-[45rem] mt-10 md:mt-16'
       >
         <CreatePostBox bgColor='' isOpen={true} closeModal={() => {}} />
-        {/* <Feeds data={postPublic} /> */}
         <ShareCard post={postPublic} />
       </div>
       <RightSidebar />

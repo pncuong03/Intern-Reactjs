@@ -59,7 +59,7 @@ const CreatePostModal: React.FC<Props> = ({ isOpen, closeModal, bgColor }) => {
     toast.success(t('home.createpost'))
     setImages([])
     setContent('')
-    setIsLoading(true)
+    setIsLoading(false)
     closeModal()
   }
 
@@ -83,7 +83,7 @@ const CreatePostModal: React.FC<Props> = ({ isOpen, closeModal, bgColor }) => {
               id='state'
               value={state}
               onChange={handleStateChange}
-              className=' bg-gray-100 border border-gray-300 rounded-md py-1 font-medium w-24 text-sm'
+              className=' bg-gray-100 border   rounded-md py-1 font-medium w-24 text-sm'
             >
               <option value='PUBLIC'>{t('home.public')}</option>
               <option value='PRIVATE'>{t('home.private')}</option>

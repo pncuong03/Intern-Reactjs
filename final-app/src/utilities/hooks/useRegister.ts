@@ -9,8 +9,8 @@ export const useRegister = () => {
   const navigate = useNavigate()
 
   const onRegister = useCallback(
-    async (fullname: string, username: string, password: string) => {
-      await dispatch(userRegister({ fullname, username, password }))
+    async (fullName: any, username: any, password: string) => {
+      await dispatch(userRegister({ fullName, username, password }))
       navigate('/')
     },
     [dispatch]

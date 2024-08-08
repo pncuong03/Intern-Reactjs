@@ -73,6 +73,12 @@
     "deleterequest":"Hủy lời mời",
     "acept":"Chấp nhận",
     "feeds":"Bảng feed của bạn",
-    "activity":"Hoạt động gần đây"
+    "activity":"Hoạt động gần đây",
+    "justnow":"Vừa xong",
+    "minute":"phút trước",
+    "hour":"giờ trước",
+    "day":"ngày trước",
+    "logouts" : "Đăng xuất"
+
   }
 }

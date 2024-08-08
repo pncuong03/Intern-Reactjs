@@ -1,9 +1,3 @@
-export interface IAuth {
-  data: {
-    accessToken: string
-  }
-}
-
 export interface IUser {
   id: string
   fullName: string
@@ -13,6 +7,11 @@ export interface IUser {
   gender: string
   description: string
   state: string
+}
+
+export interface IUserGoogle {
+  displayName: string
+  email: string
 }
 
 export interface ISearchUser {
